@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+   <h:head>
+      <title>Account Certification Director Email List</title>	
+      <link href="./css/directorStyle.css" rel="stylesheet" type="text/css" />	
+      <link href="./css/homeStyle.css" rel="stylesheet" type="text/css" />	
+   <style>
+   
+     .mainContainer {
+     margin:auto 0;
+     width:100%;
+     height:100%;  
+     font-size:1em;
+      border:none !important;
+     }
+      .headerDir {
+       position:relative;
+       left:150px;
+       font-size:30px;
+      
+      }
+      .genPanelBttn {
+      position:relative;
+      margin:auto 0;
+      left:750px !important;
+	  top:-30px !important;
+	  border:none !important;
+	  width:135px !important;
+	  height:25px !important;
+      }
+      .buttonContainer .ui-button-text {
+	color:green;
+	border-radius:4px;
+	width:135px;
+	height:20px;
+	font-size:12px !important;
+   }
+   
+   .mContainerDB {
+     position:relative;
+     left:10%;
+     margin:auto 0;
+     width:900px;
+     border:none;
+     top:10%; 
+   }
+   </style>
+   
+   </h:head>
+   <h:body> 
+    <h:form id="mainForm">
+   <p:panel  styleClass="mainContainer">
+   <h:outputText value="Notify Directors of Certification by Email" styleClass="headerDir"/>
+   
+  
+    
+	 <p:messages id="messages"  autoUpdate="true" closable="true" style="z-index:3"/>
+	<p:panel styleClass="genPanelBttn">
+	<p:commandButton  value="Generate all emails" type="submit" disabled="false"  
+									 
+									title="Generate Email" styleClass="buttonContainer" oncomplete="PF('sendBulkMailVar').show();">
+	</p:commandButton>
+	</p:panel>
+	 <p:confirmDialog id="submitMailBulk" 
+		  header="" 
+		  widgetVar="sendBulkMailVar"
+			height="10"
+			width="300"
+		    showEffect="fade" 
+		    hideEffect="explode" 
+		    modal="true" styleClass="mailDialog">
+			<p:outputPanel id="sendBulkMailPanel">
+				Would you like to send bulk mail
+				<br/>
+				<p:commandButton widgetVar="submitBulkButton" onclick="PF('submitBulkButton').disable()" value="Submit" actionListener="#{userManagedBean.generateBulkEmailNoPageRet}"
+				    align="right" update="" 
+				    oncomplete="PF('submitBulkButton').enable();PF('sendBulkMailVar').hide();">
+				     
+				</p:commandButton>
+				<p:spacer width="5px"></p:spacer>
+				<p:commandButton value="Cancel" align="right" update="" 
+					oncomplete="PF('sendBulkMailVar').hide();">
+				</p:commandButton>
+			</p:outputPanel>
+		</p:confirmDialog>
+	 
+    
+     <p:panel id="mContainer" styleClass="mContainerDB">
+     <p:dataTable value="#{userManagedBean.directortotallist}" var="directorlist1" 
+         rowClasses="director-table-odd-row,director-table-even-row"
+          widgetVar="filteredEmailData"  filteredValue="#{userManagedBean.filteredDirectors}" 
+          paginator="true" rows="6" style="width:900px;" >
+          
+         <p:column  headerText="First name" id="firstName"   style="text-align: center;"
+         filterBy="#{directorlist1.directorName}" sortBy="#{directorlist1.directorName}"  filterMatchMode="contains">    						
+             <h:outputText value="#{directorlist1.directorName}" />
+         </p:column>
+         <p:column id="dirTitle"   headerText="Title" style="text-align: center;">
+            <h:outputText value="#{directorlist1.directorTitle}" />
+         </p:column>
+         <p:column id="officeCode"   headerText="Office Code" style="text-align: center;"  
+         filterBy="#{directorlist1.officeCode}"  sortBy="#{directorlist1.officeCode}"  filterMatchMode="contains">
+             <h:outputText value="#{directorlist1.officeCode}" />
+         </p:column>
+         <p:column id="officeDesc"   headerText="Office Description" style="text-align: center;" 
+         sortBy="#{directorlist1.officeDescription}" filterMatchMode="contains" >
+            <h:outputText value="#{directorlist1.officeDescription}" />
+         </p:column>
+          <p:column id="dirType"   headerText="FEPA Director" style="text-align: center;">
+             <h:outputText value="#{directorlist1.fepaDirectorVal}" />
+         </p:column>
+         <p:column id="urlLink" headerText="URL Link" > 
+            <h:outputText style="text-align:center;word-wrap: break-word;" 
+            value="#{directorlist1.urlLink}">
+            </h:outputText>
+         </p:column>
+         <p:column id="emailLink"  filterBy="#{directorlist1.email}" filterMatchMode="contains"
+         headerText="Email" style="word-wrap: break-word;text-align:center;" sortBy="#{directorlist1.email}">
+          <h:outputText value="#{directorlist1.email}" />   
+         </p:column>
+           <p:column id="sendButtn" headerText="Send email individually" styleClass="accntHeaderLast" style="color:blue;">
+         <p:commandButton id="sendSingleEmail" value="Submit" title="Send individual email"
+			  style="width:80px; height:25px;margin-left:15px; color:black;"   oncomplete="PF('sendSingleMail').show()" update=":mainForm:sendMailPanel" >
+			   <f:setPropertyActionListener value="#{directorlist1}"
+							target="#{userManagedBean.selDirectorEmail}" />
+		</p:commandButton>
+		</p:column>
+      </p:dataTable>
+    </p:panel>
+    
+     
+      <p:dialog id="submitMail" 
+		  header="" 
+		  widgetVar="sendSingleMail"
+			height="150"
+			width="300"
+		    showEffect="fade" 
+		    hideEffect="explode" 
+		    modal="true" styleClass="mailDialog">
+			<p:outputPanel id="sendMailPanel">
+				Would you like to send this mail. to 
+				<h:outputText value="#{userManagedBean.selDirectorEmail.email}" />
+				<br/>
+				<p:commandButton widgetVar="submitButton" onclick="PF('submitButton').disable()" value="Submit" actionListener="#{userManagedBean.generateSingleEmail}"
+				    align="right" update="" 
+				    oncomplete="PF('submitButton').enable(); PF('sendSingleMail').hide();">
+				     <f:setPropertyActionListener value="#{directorlist1}"
+							target="#{userManagedBean.selDirectorEmail}" />
+				</p:commandButton>
+				<p:spacer width="5px"></p:spacer>
+				<p:commandButton value="Cancel" align="right" update="" 
+					oncomplete="PF('sendSingleMail').hide();">
+				</p:commandButton>
+			</p:outputPanel>
+		</p:dialog>     
+     
+      </p:panel>
+      </h:form>
+
+   <script>
+   function showMessage(){
+	   alert("Hello World!");	
+	}
+   </script>
+   </h:body>
+</html>

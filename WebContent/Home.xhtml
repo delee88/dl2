@@ -1,0 +1,388 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	
+
+<h:head>
+	<title>Annual Account Certification</title>
+    <link href="./css/homeStyle.css" rel="stylesheet" type="text/css" />	
+    
+    <style>
+    .dataStyleDir {
+    position:relative;
+    left:13%;
+    top:10%;
+    width:890px;
+    border:solid 10px white;
+    border-radius:8px;
+    }
+    </style>
+   
+</h:head>
+	<body style="background-color:#D3D3D3">
+	<ui:include src="/template/sessionTimeOut.xhtml" /> 
+	<h:form id="form" styleClass="dataStyleDir">
+	<f:metadata>
+    <f:viewParam name="code" value="#{userCertificationBean.code}" />
+    <!--  
+    <f:event type="preRenderView" listener="#{userCertificationBean.init}" />
+    -->
+    </f:metadata>
+    
+	 
+			<p:outputPanel id="headInfo" style="text-align: center; font-weight: bold;background-color:white;top:-10px; font-family:Times New Roman,Times,serif;">
+			 <p:outputPanel id="topFiller" style="left:0px;height:30px;width:100%;background:white;position:absolute;margin:auto 0;top:-10px;border:1px white solid "/>
+			<p:outputPanel id="logoContainer" style="position:absolute; margin:auto 0; left:0px;top:0px;height:159px;"> 
+			 <p:graphicImage id="logo" value="image/#{userCertificationBean.logo}" style="position:absolute; margin:auto 0; left:0px;top:0px;border:solid 3px white; border-radius:0px 5px 5px;"/>
+			</p:outputPanel>
+			<h3 align="center" style="z-index:4">Office of Information Technology</h3>
+	         <h2 class="title" align="center">Annual Account Certification</h2>
+				<h:outputText value="#{userCertificationBean.director.officeDescription}" />
+				<br />
+				<h:outputText value="#{userCertificationBean.director.directorName}" />
+				<p:spacer width="5px">,</p:spacer>
+				<h:outputText value="#{userCertificationBean.director.directorTitle}" />
+			<br />
+			<br />
+			
+			 <p:lightBox style="position:absolute; margin:auto 0; top:0; left:750px; color:blue; font-size:12px;">  
+                 <h:outputLink value="">  
+                       <h:outputText value="User Guide" style="color:blue;"/>  
+                      </h:outputLink>  
+                   <f:facet name="inline" style="positon:relative;">  
+                       <p:media value="/file/UsersGuide.pdf" width="1000px" height="400px">  
+                               <h:outputLink value="/file/UsersGuide.pdf"></h:outputLink> 
+                       </p:media> 
+                      </f:facet>  
+            </p:lightBox>  
+            
+			</p:outputPanel>
+			<p:outputPanel id="headInfo2" style="text-align: left; font-weight: bold;font-family:Times New Roman,Times,serif;">
+			<h:outputText  value="Please review  "/>
+			 <h:commandLink id ="report" action="#{userCertificationBean.getReportURL()}" target="_blank">
+			<h:outputText value="IMS User Access Detail Report"></h:outputText>
+			</h:commandLink>
+			<h:outputText  value=" for detailed Access information for each IMS User."/>
+			</p:outputPanel>
+            
+			<p:commandLink id="removedListLink" update="cremovedListTable"  widgetVar="rlistButton"
+			style="position:absolute; margin:auto 0; top:50; left:750px; color:red; font-size:12px;"
+			oncomplete="PF('quickViewTable').show()" >
+            <h:outputText value="Review Removed List" />
+            </p:commandLink>
+			 
+			<p:dialog id="top" header="Remove List" 
+			widgetVar="quickViewTable" showEffect="fade"
+			hideEffect="explode" modal="true" style="height:200px; top:50px; left:600px; position:absolute; margin:0; width:300px">
+	    <p:outputPanel id="cremovedList" style="width:300px;height:200px" styleName="tempList">
+	    <p:dataTable id="cremovedListTable"
+		            value="#{userCertificationBean.userAccntRemove}" var="clist" emptyMessage="No Pending Certifications"
+			         paginator="false"  style="font-size:10; width:300px; height:200px;overflow-y:visible"  
+			         headerClass="director-table-header"
+			         rowClasses="director-table-odd-row,director-table-even-row" >
+			         
+			          <p:column headerText="First Name" style="font-size:10px; color:black;width:50px;">    				
+                        <h:outputText value="#{clist.firstName}" />			
+                        </p:column>
+                        <p:column headerText="Last Name"  style="font-size:10px; color:black;width:50px;">
+                         <h:outputText value="#{clist.lastName}" />		
+                        </p:column>
+                         <p:column headerText="Application" style="font-size:10px; color:black;width:50px;">
+                          <h:outputText value= "#{clist.application}" />		
+                        </p:column>
+	    </p:dataTable>
+	    </p:outputPanel>
+	    </p:dialog>
+        <p:panel id="outuserPanel">
+        <p:messages id="messages"/>
+		<p:dataTable id ="pendingusers" var="user" emptyMessage="No Pending Certifications"
+		 rowClasses="home-table-odd-row,home-table-even-row" 
+		             value="#{userCertificationBean.pendingUsers}"
+			         paginator="true" rows="10" filteredValue="#{userCertificationBean.filteredPendingUsers}" 
+			         widgetVar="filteredPendingData" rowIndexVar="rowIndex" style="font-size:12" >
+            <f:facet name="header">  
+				            Please  review  all <h:outputText style="background-color: #1BE0D6; color: #000000;" value ="#{userCertificationBean.pendingUsersCount}"/>
+				              accounts  before  pressing  the  Certify  Button. 
+				        </f:facet>
+			<p:column id="firstNameColumn" filterBy="#{user.firstName}"  
+				headerText="First Name" filterMatchMode="startsWith" styleClass="accntHeader" 
+				actionListner="#{userCertificationBean.showTableView}" sortBy="#{user.firstName}">
+				<h:outputText value="#{user.firstName}" />
+			</p:column>
+
+			<p:column id="lastNameColumn" filterBy="#{user.lastName}"   
+				headerText="Last Name" filterMatchMode="startsWith" styleClass="accntHeader" sortBy="#{user.lastName}">
+				<h:outputText value="#{user.lastName}"  />
+			</p:column>
+			
+			<p:column id="netAccessColumn" filterBy="#{user.netAccess}"  
+				headerText="Network Access" filterMatchMode="contains" styleClass="accntHeader">
+				<h:outputText value="#{user.netAccess}" />
+			</p:column>
+
+            <p:column id="imsAccessColumn" filterBy="#{user.imsAccess}"  
+				headerText="IMS Access" filterMatchMode="contains" styleClass="accntHeader">
+				<h:outputText value="#{user.imsAccess}" />
+			</p:column>
+			
+			<p:column id="imsAdminAccessColumn" filterBy="#{user.utiliy}"   
+				headerText="IMS Admin/Utility Access" filterMatchMode="contains" styleClass="accntHeader">
+				<h:outputText value="#{user.utiliy}" />
+			</p:column>
+			
+			 <p:column id="dmsAccessColumn" filterBy="#{user.dmsAccess}"   
+				headerText="DMS Access" filterMatchMode="contains" styleClass="accntHeader">
+				<h:outputText value="#{user.dmsAccess}" />
+			</p:column>
+			
+			<p:column headerText="Action On User Account" styleClass="accntHeader" style="color:blue;">
+				<p:column headerText="">
+				<p:commandButton id="removeNetbutton" value="#{user.netremoveVal}" title=" Remove Network Account"
+				update=":form:removepanelLdap" oncomplete="PF('removeLdapUserDialog').show()" styleClass="actButton"
+				rendered="#{user.netstate}" style="#{user.netremove ? 'background-color:red' : 'background-color:grey'}" >
+						<f:setPropertyActionListener value="#{user}"
+							target="#{userCertificationBean.selUserForRemoval}" />
+				</p:commandButton>
+				
+					<!--  
+					<p:selectManyCheckbox id="basic" value="#{userCertificationBean.selectedSystem}"  update=":form:removepanelIms"
+					oncomplete="removeImsUserDialog.show()" styleClass="accntCheck">
+                      <f:selectItem itemLabel="IMS" itemValue="IMS" />   
+                    </p:selectManyCheckbox>
+				    -->
+
+					<p:commandButton id="removebutton" value="#{user.imsremoveVal}" title=" Remove IMS Account"
+						update=":form:removepanelIms" oncomplete="PF('removeImsUserDialog').show()" styleClass="actButton"
+						rendered="#{user.imsstate}"  style="#{user.imsremove ? 'background-color:red ' : 'background-color:grey'}" >
+						<f:setPropertyActionListener value="#{user}"
+							target="#{userCertificationBean.selUserForRemoval}" />
+					</p:commandButton>
+					
+					<p:commandButton id="removeDmsbutton" value="#{user.dmsremoveVal}" title=" Remove DMS Account"
+						update=":form:removepanelDms" oncomplete="PF('removeDmsUserDialog').show()" styleClass="actButton"
+						 rendered="#{user.dmsstate}"  style="#{user.dmsremove ? 'background-color:red' : 'background-color:grey'}" >
+						<f:setPropertyActionListener value="#{user}"
+							target="#{userCertificationBean.selUserForRemoval}" />
+					</p:commandButton>
+					
+					<p:spacer width="5px"></p:spacer>
+				</p:column>
+			</p:column>
+ 
+			<f:facet name="footer">
+					<p:outputPanel id="certifyPanel" style="align:center">
+						<p:commandButton id="cerprocbutton" value="Certify" title="Please review all staff before pressing the Certify button" disabled="#{userCertificationBean.enabled}"
+							update="@(removeTable)" oncomplete="PF('certifyUserDialog').show()" actionListener="#{userCertificationBean.showTableView}">
+							 <!--  This is where set property goes for the director -->
+						</p:commandButton>
+					</p:outputPanel>
+				</f:facet>
+		</p:dataTable>
+ </p:panel>
+		<h4 align="center">
+			You may only verify or remove accounts here. <br />To change
+			individual staff access levels, please use the IMS Utilities/Security
+			module. For DMS and LDAP please submit a Service Now Ticket
+		</h4>
+		<p:dialog id="removeImsDialog" 
+		  header="Remove Ims Account" 
+		  widgetVar="removeImsUserDialog"
+			height="300"
+			width="300"
+		    showEffect="fade" 
+		    hideEffect="explode" 
+		    modal="true">
+			<p:outputPanel id="removepanelIms">
+				You have selected this user's IMS account for removal 
+				<h:outputText value="#{userCertificationBean.selUserForRemoval.firstName}" />
+				<p:spacer width="5px"></p:spacer>
+				<h:outputText value="#{userCertificationBean.selUserForRemoval.lastName}" />.
+				<p:spacer width="5px"></p:spacer>
+				Provide a reason for removal in plain text :*
+				<br />
+				<p:inputTextarea id="removetextareaIms" rows="5" cols="30"
+					counter="counterIms" maxlength="100"
+					title="add the removal reason"
+					counterTemplate="{0} characters remaining." autoResize="false" 
+					value="#{userCertificationBean.selUserForRemoval.comments}" />
+				<br />
+				<h:outputText id="counterIms" />
+				<br />
+				<p:commandButton widgetVar="submitButton" onclick="PF('submitButton').disable()" value="Submit" actionListener="#{userCertificationBean.updateImsRemoveList}" 
+				    align="right" update=":form:outuserPanel , :form:cerpanel , removeTable, cremovedListTable  " 
+				    oncomplete="PF('filteredPendingData').filter();PF('submitButton').enable();PF('removeImsUserDialog').hide();" title="Add user to removed list">
+				 
+				</p:commandButton>
+				<p:spacer width="5px"></p:spacer>
+				<p:commandButton value="Cancel" align="right" update=":form:outuserPanel , :form:cerpanel , removeTable, cremovedListTable"  actionListener="#{userCertificationBean.cancelImsRemove}"
+					oncomplete="PF('removeImsUserDialog').hide();" title="Remove user from removed list">
+				</p:commandButton>
+			</p:outputPanel>
+		</p:dialog>
+		<p:dialog id="removeLdapDialog" 
+		  header="Remove Ldap / Net Account" 
+		  widgetVar="removeLdapUserDialog"
+			height="300"
+			width="300"
+		    showEffect="fade" 
+		    hideEffect="explode" 
+		    modal="true">
+			<p:outputPanel id="removepanelLdap">
+				You have selected this user's LDAP / Novel account for removal 
+				<h:outputText value="#{userCertificationBean.selUserForRemoval.firstName}" />
+				<p:spacer width="5px"></p:spacer>
+				<h:outputText value="#{userCertificationBean.selUserForRemoval.lastName}" />.
+				<p:spacer width="5px"></p:spacer>
+				Provide a reason for removal in plain text :*
+				<br/>
+				<p:inputTextarea id="removetextareaLdap" rows="5" cols="30"
+					counter="counterLdap" maxlength="100"
+					title="add the removal reason"
+					counterTemplate="{0} characters remaining." autoResize="false" 
+					value="#{userCertificationBean.selUserForRemoval.commentsldap}" />
+				<br/>
+				<h:outputText id="counterLdap" />
+				<br/>
+				<p:commandButton widgetVar="submitButton" onclick="submitButton.disable()" value="Submit" actionListener="#{userCertificationBean.updateLdapRemoveList}" 
+				    align="right" update=":form:outuserPanel , :form:cerpanel , removeTable ,  cremovedListTable" 
+				    oncomplete="PF('filteredPendingData').filter();PF('submitButton').enable();PF('removeLdapUserDialog').hide();" title="Add user to removed list">
+				</p:commandButton>
+				<p:spacer width="5px"></p:spacer>
+				<p:commandButton value="Cancel" align="right" update=":form:outuserPanel , :form:cerpanel , removeTable , cremovedListTable" actionListener="#{userCertificationBean.cancelLdapRemove}"
+					oncomplete="PF('removeLdapUserDialog').hide();" title="Remove user from removed list">
+				</p:commandButton>
+			</p:outputPanel>
+		</p:dialog>
+		
+		<p:dialog id="removeDmsDialog" 
+		  header="Remove Dms Account" 
+		  widgetVar="removeDmsUserDialog"
+			height="300"
+			width="300"
+		    showEffect="fade" 
+		    hideEffect="explode" 
+		    modal="true">
+			<p:outputPanel id="removepanelDms">
+				You have selected this user's DMS account for removal 
+				<h:outputText value="#{userCertificationBean.selUserForRemoval.firstName}" />
+				<p:spacer width="5px"></p:spacer>
+				<h:outputText value="#{userCertificationBean.selUserForRemoval.lastName}" />.
+				<p:spacer width="5px"></p:spacer>
+				Provide a reason for removal in plain text :*
+				<br/>
+				<p:inputTextarea id="removetextareaDms" rows="5" cols="30"
+					counter="counterDms" maxlength="100"
+					title="add the removal reason"
+					counterTemplate="{0} characters remaining." autoResize="false" 
+					value="#{userCertificationBean.selUserForRemoval.commentsdms}" />
+				<br/>
+				<h:outputText id="counterDms" />
+				<br                                                         />
+				<p:commandButton widgetVar="submitButton" onclick="submitButton.disable()" value="Submit" actionListener="#{userCertificationBean.updateDmsRemoveList}" 
+				    align="right" update=":form:outuserPanel , :form:cerpanel , removeTable , cremovedListTable" 
+				    oncomplete="PF('filteredPendingData').filter();PF('submitButton').enable();PF('removeDmsUserDialog').hide();" title="Add user to removed list">
+				     
+				</p:commandButton>
+				<p:spacer width="5px"></p:spacer>
+				<p:commandButton value="Cancel" align="right" update=":form:outuserPanel , :form:cerpanel , removeTable , cremovedListTable" actionListener="#{userCertificationBean.cancelDmsRemove}"
+					oncomplete="PF('removeDmsUserDialog').hide();" title="Remove user from removed list">
+				</p:commandButton>
+			</p:outputPanel>
+		</p:dialog>
+		
+		<p:dialog id="certifyDialog" header="Initiating certification process"
+			widgetVar="certifyUserDialog" height="200" width="600" showEffect="fade"
+			hideEffect="explode" modal="true" style="height:500px">
+			<p:outputPanel id="cerpanel">
+				<h:panelGrid id="disemail" cellpadding="0" style="font-size: 12px">
+					<p:row>
+						<p:column style="text-align:left">
+							I,
+							<h:outputText
+								value="#{userCertificationBean.director.directorName}" /> of
+							<p:spacer width="5px"></p:spacer>
+							<h:outputText
+								value="#{userCertificationBean.director.officeDescription}" /> confirm that the Network, IMS and DMS accounts 
+                                for my office are valid .  Pressing Yes below serves as my 
+                                certification of this process.  Pressing No allows me to return
+                                and make adjustments as necessary.
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column style="float:right;">
+							<p:separator height="1px" width="5px"></p:separator>
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column>
+							<p:commandButton value="No " style="float:right;" update="removeTable"
+								oncomplete="PF('certifyUserDialog').hide();">
+								 
+							</p:commandButton>
+					    <p:commandButton value="Yes " style="float:right;"  onstart="PF('yesCertifyButton').disable()" widgetVar="yesCertifyButton"
+								 update="@(removeTable)" ajax ="false" oncomplete="PF('certifyUserDialog').hide();"
+								  action="#{userCertificationBean.certify}">
+							</p:commandButton>
+						</p:column>
+					</p:row>
+                   <p:row>
+                   <p:column>
+                    <h:panelGroup layout="block"  styleClass="bottomDiv1">
+                       <h:dataTable id="removeTable" value="#{userCertificationBean.userAccntRemove}" var="removelist1"
+                           styleClass="director-table"
+                            headerClass="director-table-header"
+                            rowClasses="director-table-odd-row,director-table-even-row" style="overflow-y:visible">
+                        <h:column>    				
+                       <f:facet name="header">First Name</f:facet>    				
+                        #{removelist1.firstName}
+                        </h:column>
+                        <h:column>
+                        <f:facet name="header">Last Name</f:facet>
+                        #{removelist1.lastName}
+                        </h:column>
+                         <h:column>
+                        <f:facet name="header">Application</f:facet>
+                        #{removelist1.application}
+                        </h:column>
+                         <h:column>
+                        <f:facet name="header">Reason for removal</f:facet>
+                        #{removelist1.comments}
+                        </h:column>
+                </h:dataTable>
+                </h:panelGroup>
+                   </p:column>
+                   </p:row>
+				</h:panelGrid>
+
+			</p:outputPanel>
+		</p:dialog>
+	</h:form>
+<script type="text/javascript">  
+
+/*
+$( document ).ready(function() {
+
+
+	$('#form').keypress(function(e)
+		{
+		   if ( event.which == 13 ) {
+		     event.preventDefault();
+		   }
+		});
+   
+$('input,select').keypress(function(event)
+		{ return event.keyCode != 13;
+		 });
+
+});
+
+*/
+</script>	
+</body>
+
+</html>

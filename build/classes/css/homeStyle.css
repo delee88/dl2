@@ -1,0 +1,50 @@
+ 
+.actButton {
+	font-size:8px !important;
+	color:black !important;
+	width:100px !important;
+	height:30px;
+	margin:4px;
+	margin-left:0px !important;
+	word-wrap: break-word !important;
+}
+
+.accntHeader {	
+	font-size:11px !important;
+	color:black !important;
+	width:80px;
+}
+
+.accntHeaderLast  {	
+	 border: border: 5px solid rgba(255,255,255,.5);
+	font-size:12px !important;
+     margin:3px;
+     height:65px;
+     
+}
+
+.accntCheck {
+   border: 1px solid transparent !important;
+	outline: 0 !important;
+}
+
+.panelgrid td {
+	border-style: none !important;
+    padding: 2px 2px;	
+}
+.home-table-odd-row {
+   text-align:center;
+   background:none repeat scroll 0 0 #FFFFFF;	
+   font-family:"Lucida Sans Unicode", "Lucida Grande", sans-se;
+    font-size:12px;
+    color:#004C80;
+    border: solid 1px #AFD4AF;
+}
+.home-table-even-row {
+   text-align:center;
+   background:none repeat scroll 0 0 #f0f9fb;
+   font-family:"Lucida Sans Unicode", "Lucida Grande", sans-se;
+   font-size:12px;
+   color:#004C80;
+   border: solid 1px #AFD4AF;
+}

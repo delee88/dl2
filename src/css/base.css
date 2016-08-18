@@ -1,0 +1,158 @@
+/**
+ * @project: EEOC FIRES
+ * @filename: base.css
+ * @description: defines all the "base" styles
+ * @author: ILS Technologies LLC | ils-tech.com (BMoss - 11/28/2011)
+ *
+ */
+
+
+/*****************************************************
+ * General/Layout
+ *****************************************************/ 
+body {
+	background: #515560 url( ../images/bg.jpg ) no-repeat 50% 0;
+	font-family: "Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitsream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif;
+	font-weight: normal;
+	font-size: 12px;
+	color: #777;
+}
+
+#header {
+	/*width: 900px;*/
+	margin: 40px auto 20px;
+}
+
+.ui-panelgrid tr, .ui-panelgrid td {
+border:0 !important;
+padding: 2px 6px;
+}
+
+.ui-helper-clearfix {
+/*display: none;*/
+}
+.ui-wizard-step-title {
+font-size: 18px;
+margin: 0 3px 0 0;
+padding: 0.4em;
+float: left;
+display: none;
+}
+
+.ui-panelgrid .ui-panelgrid-header {
+text-align: right;
+padding: 4px 10px;
+}
+
+.ui-datatable th, .ui-datatable tfoot td {
+text-align: center;
+white-space: normal;
+padding: 0px;
+margin: 0px;
+overflow: hidden;
+}
+
+.ui-tree {
+width: 100%;
+padding: 0.0em;
+}
+
+
+#content {
+	background: #e7e7e7;
+	background-image: url('../images/FedSEP_new.png') ;
+	background-repeat: no-repeat;
+	background-position: top;
+	border: 1px solid #151111;
+	width: 1050px;
+	/*margin: 0 auto 0; */
+	text-align:center;
+	/*padding: 0 0 50px 0;*/
+}
+
+/*****************************************************
+ * Typography
+ *****************************************************/ 
+
+h1 {
+	font-size: 34px;
+	margin: 20px 0;
+	letter-spacing: -1px;
+	padding-left: 40px;
+}
+
+#header h1 {
+	color: #fff;
+	font-size: 24px;
+	padding: 0;
+	text-align: center;
+}
+
+h2 {
+	font-size: 20px;
+	margin: 10px 0 15px 0;
+	border-bottom: 1px dotted #ccc;
+	color: #777;
+}
+
+h3 {
+	font-size: 16px;
+	line-height: 20px;
+	padding: 0 0 5px 0;
+	border-bottom: 1px dotted #ccc;
+	margin: 0 0 5px 0;	
+}
+
+table th {
+	background-color: #CDCDCD;
+	font-size: 11px;
+	font-weight: bold;
+	padding: 5px 0 5px 0;
+}
+
+table td {
+	padding: 5px 0 5px 0;
+}
+
+ul li {
+	font-size: 12px;
+}
+
+p {
+	font-size: 12px;
+	line-height: 20px;
+}
+
+.left {
+	text-align: left;
+}
+
+.center {
+	text-align: center;
+}
+
+.right {
+	text-align: right;	
+}
+#contact_info {
+	float: right;
+	width: 225px;
+}
+
+#contact_info ul {
+	margin: 0 0 20px;
+}
+
+.chat{
+	background-image: url(‘chat.png’) !important;
+}
+ .skipnav a {
+      position:absolute;
+      top:-1000em;
+      padding:5px;
+      font-weight:bold;
+      background-color:#fc3;
+ }
+ .skipnav a:focus, .skipnav a:active {
+    position:static;
+ }

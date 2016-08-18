@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	<h:head>
+	<link href="./css/tableStyle.css" rel="stylesheet" type="text/css" />
+	<style>
+	  .headStyles {
+	  margin:auto 0;  
+	  border:none;
+	  width:100%;
+	  height:100%;
+	  }
+	  .innerClass {
+	  position:relative;
+	  margin:auto 0;
+	  top:150px;
+	  left:35%;
+	  width:400px;
+	  border:solid 3px grey;
+	  }
+	  .loadPanelStyle {
+	  position:relative;
+	  top:10%;
+	  
+	  }
+	</style>
+	 <script type="text/javascript" src="../resources/primefaces/blockui/blockui.js" />
+		<script type="text/javascript">
+			function blockScreen() {
+
+			 
+				$.blockUI({
+					message: '<h4><img src="ajax-loader.gif" /> Processing, Please Wait...</h4>',
+					css: {
+						fontsize: '8px', 
+				    	padding:'10px',
+				    	margin:'13px',
+				    	color:'#666'} 
+					}); 
+			}
+			function unBlockScreen() {
+				$.unblockUI();
+			}
+
+			function block1() {
+              $("body").animate({background:"yellow"}, 300);
+				}
+		</script>
+	 
+	 <script>
+	 
+	 </script>
+	  <title>Account Certification login</title>
+	 
+   </h:head>
+ 
+<h:body id= "mainBody">
+<h:form id="loginForm">
+<p:panel layout="block" id="containerMain" styleClass="headStyles">
+ <p:panel id="loadID"  closable="true" toggleable="true" visible="false" styleClass="loadPanelStyle"
+		  widgetVar="loadDialogWidget"
+			height="100"
+			width="150">
+			<p:outputPanel id="loadData" style="color:green; font-size:24;font-family:verdana;">
+				Loading data ....
+				<br/> 
+			</p:outputPanel>
+		</p:panel>
+			 
+				<!--  <p:growl id="growl" showDetail="false" sticky="true" /> -->
+				<p:panel styleClass="innerClass">
+               <p:messages id="messages" autoUpdate="true" closable="true" style="z-index:3;"/>
+                 <h:outputText value="Account Certification Login" id="header"/>
+					<p:panelGrid cellpadding="0">
+						<f:facet name="header">
+							<p:row>
+								<p:column colspan="2" style="text-align:left;" >
+									<span style="font-size: 15px">Sign In</span>
+								</p:column>
+							</p:row>
+						</f:facet>
+						<p:row>
+							<p:column colspan="2">
+								<p:spacer width="12" height="5" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column style="text-align:right;font-weight:bold;">
+								<h:outputLabel for="uid" value="User Id:*" />
+							</p:column>
+							<p:column>
+								<p:inputText id="uid" value="#{userManagedBean.userName}"
+									label="User Id:" required="true" style="float:left;"
+									title="User Id">
+									
+								</p:inputText>
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column style="text-align:right;font-weight:bold;">
+								<h:outputLabel for="pwd1" value="Password:*" />
+							</p:column>
+							<p:column>
+								<p:password style="float:left;" id="pwd1"
+									value="#{userManagedBean.password}" label="Password" required="true" 
+									requiredMessage="Password is required"
+									title="Password"/>
+							</p:column>
+						</p:row>
+						
+
+						<p:row>
+							<p:column colspan="2">
+								<p:commandButton type="submit" value="Submit" onclick="PF('loadDialogWidget').show()"
+									action="#{userManagedBean.generateDirectorTable()}" style="float:right;" 
+									oncomplete="PF('loadDialogWidget').close()"  
+									title="Login">
+									<f:ajax/>
+									</p:commandButton>
+							</p:column>
+						</p:row>
+
+						<p:row>
+							<p:column colspan="2" style="text-align:left">
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column colspan="2">
+								<p:spacer width="12" height="5" />
+							</p:column>
+						</p:row>
+
+					</p:panelGrid>
+				</p:panel>
+				<p:spacer width="100%" height="20px" />
+			
+		 
+		</p:panel>
+		
+		
+		</h:form>
+</h:body>
+</html>
